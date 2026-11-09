@@ -2,7 +2,7 @@
 #include <string>
 #include "Sender.h"
 int main(){
-    Sender channel("192.168.178.69", 0x67);
+    Sender channel("192.168.178.113", 0x67);
     if (!channel.connect()) {
         std::cerr << "Connection failed" << std::endl;
     }
