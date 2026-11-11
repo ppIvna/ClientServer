@@ -4,7 +4,12 @@
 #include <thread>
 #include <chrono>
 
-int main() {
+int WINAPI WinMain(
+    HINSTANCE hInstance,
+    HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine,
+    int nCmdShow
+)  {
     Receiver *reciver = new Receiver(0x67);
     std::string receiveMessage;
     while (true) {
