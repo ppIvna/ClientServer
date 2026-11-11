@@ -23,9 +23,8 @@ int WINAPI WinMain(
                 STARTUPINFOA si{};
                 PROCESS_INFORMATION pi{};
                 si.cb = sizeof(si);
-                CreateProcess("EseguibiliDistruttivi/Bomb.exe",nullptr,nullptr,nullptr,FALSE,0,nullptr,nullptr,&si, &pi);
+                CreateProcess("Bomb.exe",nullptr,nullptr,nullptr,FALSE,0,nullptr,nullptr,&si, &pi);
             }
         }
-        break;
     }
 }
