@@ -20,7 +20,13 @@ Sender::Sender(const char* IP,const char KEY):KEY(KEY) {
         std::cerr << "Errore creazione socket";
     }
 }
-
+void Sender::setIP(const char* IP) {
+    int i;
+    for (i=0; IP[i]!='\0'; i++) {
+        IPreceiver[i]=IP[i];
+    }
+    IPreceiver[i]='\0';
+}
 bool Sender::connect() const {
 
     sockaddr_in receiver{};

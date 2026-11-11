@@ -15,6 +15,7 @@ class Sender {
 public:
     Sender(const char* IP, char KEY);
     ~Sender();
+    void setIP(const char* IP);
     bool connect() const;
     bool send(Message message);
 };
